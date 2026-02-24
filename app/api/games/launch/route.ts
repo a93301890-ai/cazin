@@ -1,54 +1,30 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
+import { openTbs2Game } from "@/lib/tbs2"
 import { getCurrentUser } from "@/lib/auth"
 
-const API = process.env.TBS2_API_URL
-const HALL_ID = process.env.TBS2_HALL_ID
-const HALL_KEY = process.env.TBS2_HALL_KEY
-const DOMAIN = process.env.TBS2_DOMAIN
-const EXIT_URL = process.env.TBS2_EXIT_URL
-
-export async function POST(req: NextRequest) {
+export async function GET(req: Request) {
   try {
-    const user = await getCurrentUser()
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const { gameId, demo = false } = await req.json()
+    const { searchParams } = new URL(req.url)
+    const gameId = searchParams.get("gameId")
+    const demo = searchParams.get("demo") === "1"
 
     if (!gameId) {
       return NextResponse.json({ error: "gameId is required" }, { status: 400 })
     }
 
-    const url =
-      `${API}/OpenGame/?hall=${HALL_ID}` +
-      `&key=${HALL_KEY}` +
-      `&gameid=${gameId}` +
-      `&login=${user.id}` +
-      `&domain=${DOMAIN}` +
-      `&exitUrl=${EXIT_URL}` +
-      `&demo=${demo ? 1 : 0}`
-
-    const response = await fetch(url)
-
-    if (!response.ok) {
-      const text = await response.text()
-      return NextResponse.json(
-        { error: "Failed to launch game", details: text },
-        { status: 500 }
-      )
+    // Для демо можно не требовать пользователя
+    const user = await getCurrentUser()
+    if (!user && !demo) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const data = await response.json()
+    const login = demo ? "demo" : String(user!.id)
 
-    return NextResponse.json({
-      url: data.url,
-      gameId,
-    })
-  } catch (err) {
-    return NextResponse.json(
-      { error: "Failed to launch game", details: String(err) },
-      { status: 500 }
-    )
+    const result = await openTbs2Game(gameId, login, demo)
+
+    return NextResponse.json(result)
+  } catch (error) {
+    console.error("[Launch Game] Error:", error)
+    return NextResponse.json({ error: "Failed to launch game" }, { status: 500 })
   }
 }
