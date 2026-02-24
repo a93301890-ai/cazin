@@ -1,93 +1,53 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getCurrentUser } from "@/lib/auth"
-import { getDb } from "@/lib/db"
-import crypto from "crypto"
 
-const TBS2_API_URL = process.env.TBS2_API_URL || "https://tbs2api.lvslot.net"
-const TBS2_HALL_ID = process.env.TBS2_HALL_ID || ""
-const TBS2_HALL_KEY = process.env.TBS2_HALL_KEY || ""
+const API = process.env.TBS2_API_URL
+const HALL_ID = process.env.TBS2_HALL_ID
+const HALL_KEY = process.env.TBS2_HALL_KEY
+const DOMAIN = process.env.TBS2_DOMAIN
+const EXIT_URL = process.env.TBS2_EXIT_URL
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const user = await getCurrentUser()
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const { gameId, demo = false } = await request.json()
+    const { gameId, demo = false } = await req.json()
 
     if (!gameId) {
       return NextResponse.json({ error: "gameId is required" }, { status: 400 })
     }
 
-    if (!TBS2_HALL_ID || !TBS2_HALL_KEY) {
-      return NextResponse.json({ error: "TBS2 integration not configured" }, { status: 500 })
-    }
+    const url =
+      `${API}/OpenGame/?hall=${HALL_ID}` +
+      `&key=${HALL_KEY}` +
+      `&gameid=${gameId}` +
+      `&login=${user.id}` +
+      `&domain=${DOMAIN}` +
+      `&exitUrl=${EXIT_URL}` +
+      `&demo=${demo ? 1 : 0}`
 
-    const sql = getDb()
-
-    // Create a unique game session ID
-    const sessionId = crypto.randomUUID()
-
-    // Store the game session in our database
-    await sql`
-      INSERT INTO game_sessions (user_id, session_id, game_id)
-      VALUES (${user.id}, ${sessionId}, ${gameId})
-    `
-
-    // Request game URL from TBS2
-    const params = new URLSearchParams({
-      hall: TBS2_HALL_ID,
-      key: TBS2_HALL_KEY,
-      game: gameId,
-      session: sessionId,
-      player: user.id,
-      lang: "ru",
-      currency: "USD",
-    })
-
-    if (demo) {
-      params.set("demo", "1")
-    }
-
-    let response = await fetch(`${TBS2_API_URL}/api/open?${params.toString()}`, {
-      method: "GET",
-      cache: "no-store",
-    })
+    const response = await fetch(url)
 
     if (!response.ok) {
-      // Try POST
-      response = await fetch(`${TBS2_API_URL}/api/open`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params.toString(),
-        cache: "no-store",
-      })
-    }
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error("[Game Launch] TBS2 error:", response.status, errorText)
+      const text = await response.text()
       return NextResponse.json(
-        { error: "Failed to launch game", details: errorText },
-        { status: 502 }
+        { error: "Failed to launch game", details: text },
+        { status: 500 }
       )
     }
 
     const data = await response.json()
 
-    // TBS2 returns a URL or content with the game
-    const gameUrl = data.url || data.content || data.game_url || data
-
     return NextResponse.json({
-      url: gameUrl,
-      sessionId,
+      url: data.url,
       gameId,
     })
-  } catch (error) {
-    console.error("[Game Launch] Error:", error)
+  } catch (err) {
     return NextResponse.json(
-      { error: "Failed to launch game" },
+      { error: "Failed to launch game", details: String(err) },
       { status: 500 }
     )
   }
