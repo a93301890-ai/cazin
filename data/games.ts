@@ -1,48 +1,51 @@
 export const games = [
-  // EGT
-  { id: "EGT_40SuperHot", name: "40 Super Hot", provider: "EGT", category: "slots" },
-  { id: "EGT_BurningHot", name: "Burning Hot", provider: "EGT", category: "slots" },
-  { id: "EGT_ShiningCrown", name: "Shining Crown", provider: "EGT", category: "slots" },
+  // -------------------------
+  // EVOLUTION — LIVE CASINO
+  // -------------------------
 
-  // Amatic
-  { id: "AMATIC_BookOfAztec", name: "Book of Aztec", provider: "Amatic", category: "slots" },
-  { id: "AMATIC_HotSeven", name: "Hot Seven", provider: "Amatic", category: "slots" },
+  { id: "14015", name: "Auto-Roulette", provider: "Evolution", category: "live" },
+  { id: "13997", name: "Auto-Roulette VIP", provider: "Evolution", category: "live" },
 
-  // Pragmatic Play
-  { id: "PRAGMATIC_SweetBonanza", name: "Sweet Bonanza", provider: "Pragmatic", category: "slots" },
-  { id: "PRAGMATIC_GatesOfOlympus", name: "Gates of Olympus", provider: "Pragmatic", category: "slots" },
+  { id: "13976", name: "First Person Baccarat", provider: "Evolution", category: "live" },
+  { id: "13978", name: "First Person Deal or No Deal", provider: "Evolution", category: "live" },
+  { id: "14088", name: "First Person Lightning Blackjack", provider: "Evolution", category: "live" },
+  { id: "14086", name: "First Person Mega Ball", provider: "Evolution", category: "live" },
+  { id: "14087", name: "First Person Roulette", provider: "Evolution", category: "live" },
+  { id: "14089", name: "First Person Top Card", provider: "Evolution", category: "live" },
+  { id: "14090", name: "First Person XXXtreme Lightning Baccarat", provider: "Evolution", category: "live" },
 
-  // NetEnt
-  { id: "NETENT_Starburst", name: "Starburst", provider: "NetEnt", category: "slots" },
+  { id: "13979", name: "Dream Catcher", provider: "Evolution", category: "live" },
+  { id: "13977", name: "Cash or Crash", provider: "Evolution", category: "live" },
+  { id: "14062", name: "Crazy Coin Flip", provider: "Evolution", category: "live" },
 
-  // Novomatic
-  { id: "NOVOMATIC_BookOfRa", name: "Book of Ra", provider: "Novomatic", category: "slots" },
+  { id: "13983", name: "Lightning Blackjack", provider: "Evolution", category: "live" },
+  { id: "13982", name: "Lightning Baccarat", provider: "Evolution", category: "live" },
 
-  // PG Soft
-  { id: "PGSOFT_MahjongWays", name: "Mahjong Ways", provider: "PG Soft", category: "slots" },
+  { id: "14144", name: "Emperor Sic Bo", provider: "Evolution", category: "live" },
+  { id: "14084", name: "Emperor Speed Baccarat A", provider: "Evolution", category: "live" },
+  { id: "14085", name: "Emperor Speed Baccarat B", provider: "Evolution", category: "live" },
 
-  // Red Tiger
-  { id: "REDTIGER_PiggyRiches", name: "Piggy Riches", provider: "Red Tiger", category: "slots" },
+  { id: "13991", name: "Blackjack H", provider: "Evolution", category: "live" },
+  { id: "13990", name: "Blackjack Fortune VIP", provider: "Evolution", category: "live" },
 
-  // Rubyplay
-  { id: "RUBYPLAY_DiamondExplosion", name: "Diamond Explosion", provider: "Rubyplay", category: "slots" },
+  { id: "13998", name: "Dragon Tiger", provider: "Evolution", category: "live" },
+  { id: "14110", name: "Fan Tan", provider: "Evolution", category: "live" },
 
-  // Hacksaw
-  { id: "HACKSAW_WantedDeadOrAWild", name: "Wanted Dead or a Wild", provider: "Hacksaw", category: "slots" },
+  { id: "14083", name: "Gold Vault Roulette", provider: "Evolution", category: "live" },
+  { id: "14108", name: "French Roulette Gold", provider: "Evolution", category: "live" },
 
-  // Spribe
-  { id: "SPRIBE_Aviator", name: "Aviator", provider: "Spribe", category: "crash" },
+  { id: "13980", name: "Infinite Blackjack", provider: "Evolution", category: "live" },
+  { id: "14086", name: "Power Blackjack", provider: "Evolution", category: "live" },
 
-  // JetX
-  { id: "JETX_JetX", name: "JetX", provider: "JetX", category: "crash" },
+  { id: "13984", name: "Peek Baccarat", provider: "Evolution", category: "live" },
+  { id: "13985", name: "Prosperity Tree Baccarat", provider: "Evolution", category: "live" },
 
-  // FireKirin
-  { id: "FIREKIRIN_FireKirin", name: "Fire Kirin", provider: "FireKirin", category: "fishing" },
+  { id: "13986", name: "Speed Baccarat A", provider: "Evolution", category: "live" },
+  { id: "174924", name: "Speed Baccarat 1", provider: "Evolution", category: "live" },
+  { id: "174927", name: "Speed Baccarat 2", provider: "Evolution", category: "live" },
+  { id: "174928", name: "Speed Baccarat 3", provider: "Evolution", category: "live" },
 
-  // Buffalo Thunder
-  { id: "BUFFALO_BuffaloThunder", name: "Buffalo Thunder", provider: "Buffalo Thunder", category: "fishing" },
+  { id: "13916", name: "Speed Blackjack", provider: "Evolution", category: "live" },
 
-  // Evolution
-  { id: "EVOLUTION_Roulette", name: "Roulette Live", provider: "Evolution", category: "live" },
-  { id: "EVOLUTION_Blackjack", name: "Blackjack Live", provider: "Evolution", category: "live" }
+  { id: "13921", name: "XXXtreme Lightning Baccarat", provider: "Evolution", category: "live" }
 ]
