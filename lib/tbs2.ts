@@ -28,7 +28,7 @@ export type TBS2CallbackRequest = any
 export type TBS2CallbackResponse = any
 
 // ---------------------------------------------------------
-// 🔥 Реальная функция открытия игры
+// 🔥 Реальная функция открытия игры + ЛОГИРОВАНИЕ
 // ---------------------------------------------------------
 
 export async function openTbs2Game(gameId: string, login: string, demo: boolean) {
@@ -41,8 +41,18 @@ export async function openTbs2Game(gameId: string, login: string, demo: boolean)
     `&exitUrl=${EXIT_URL}` +
     `&demo=${demo ? 1 : 0}`
 
+  // ЛОГИРОВАНИЕ
+  console.log("[TBS2] OpenGame URL:", url)
+
   const res = await fetch(url)
-  if (!res.ok) throw new Error("Failed to open game")
+
+  console.log("[TBS2] Status:", res.status)
+
+  if (!res.ok) {
+    const text = await res.text()
+    console.log("[TBS2] Error response:", text)
+    throw new Error("Failed to open game")
+  }
 
   return res.json()
 }
