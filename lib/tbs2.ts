@@ -8,16 +8,6 @@ if (!API || !HALL_ID || !HALL_KEY) {
   throw new Error("TBS2 integration not configured")
 }
 
-// Получение списка игр
-export async function getTbs2Games() {
-  const url = `${API}/GetGamesList/?hall=${HALL_ID}&key=${HALL_KEY}`
-
-  const res = await fetch(url)
-  if (!res.ok) throw new Error("Failed to load games")
-
-  return res.json()
-}
-
 // Открытие игры
 export async function openTbs2Game(gameId: string, login: string, demo: boolean) {
   const url =
